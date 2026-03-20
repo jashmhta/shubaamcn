@@ -10,14 +10,221 @@
     <meta name="author" content="Shubhaam Concret Floors Pvt Ltd" />
     <meta name="robots" content="index, follow" />
     <link rel="icon" type="image/png" href="/assets/images/logo.png" />
+    <link rel="preload" as="image" href="/assets/images/logo-og.png" />
     <link rel="canonical" href="https://shubhaamconcret.com/" />
     <!-- Google Fonts: Cormorant Garamond + DM Sans + Cinzel -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .boot-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at top, rgba(210, 168, 88, 0.18), transparent 32%),
+          linear-gradient(180deg, #171310 0%, #201915 52%, #120e0c 100%);
+        transition: opacity 0.55s ease, visibility 0.55s ease;
+      }
+
+      .boot-loader::before,
+      .boot-loader::after {
+        content: "";
+        position: absolute;
+        border-radius: 999px;
+        filter: blur(8px);
+        opacity: 0.55;
+      }
+
+      .boot-loader::before {
+        width: 18rem;
+        height: 18rem;
+        top: -6rem;
+        right: -5rem;
+        background: rgba(210, 168, 88, 0.16);
+      }
+
+      .boot-loader::after {
+        width: 16rem;
+        height: 16rem;
+        bottom: -6rem;
+        left: -5rem;
+        background: rgba(255, 255, 255, 0.06);
+      }
+
+      .boot-loader--done {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+
+      .boot-loader__shell {
+        position: relative;
+        width: min(20rem, calc(100vw - 2rem));
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 1.75rem;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.04));
+        box-shadow: 0 30px 90px rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(18px);
+      }
+
+      .boot-loader__shell::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1px;
+        background: linear-gradient(135deg, rgba(210, 168, 88, 0.8), rgba(255, 255, 255, 0.08), rgba(210, 168, 88, 0.45));
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+      }
+
+      .boot-loader__brand {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 7rem;
+        height: 7rem;
+        margin: 0 auto 1rem;
+      }
+
+      .boot-loader__brand::before {
+        content: "";
+        position: absolute;
+        inset: -0.6rem;
+        border-radius: 999px;
+        border: 1px solid rgba(210, 168, 88, 0.28);
+        animation: boot-pulse 1.8s ease-in-out infinite;
+      }
+
+      .boot-loader__brand::after {
+        content: "";
+        position: absolute;
+        inset: -0.2rem;
+        border-radius: 999px;
+        border-top: 2px solid rgba(210, 168, 88, 0.95);
+        border-right: 2px solid transparent;
+        border-bottom: 2px solid rgba(210, 168, 88, 0.25);
+        border-left: 2px solid transparent;
+        animation: boot-spin 1.4s linear infinite;
+      }
+
+      .boot-loader__logo {
+        position: relative;
+        width: 5.6rem;
+        height: 5.6rem;
+        object-fit: contain;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.96);
+        padding: 0.6rem;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .boot-loader__title {
+        margin: 0;
+        color: #f6f1ea;
+        text-align: center;
+        font: 700 1.35rem/1.1 "Cormorant Garamond", serif;
+        letter-spacing: 0.01em;
+      }
+
+      .boot-loader__title span {
+        color: #d2a858;
+      }
+
+      .boot-loader__copy {
+        margin: 0.45rem 0 0;
+        color: rgba(246, 241, 234, 0.7);
+        text-align: center;
+        font: 500 0.82rem/1.55 "DM Sans", sans-serif;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .boot-loader__rail {
+        position: relative;
+        height: 0.26rem;
+        margin-top: 1.15rem;
+        overflow: hidden;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .boot-loader__rail::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        width: 45%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, rgba(210, 168, 88, 0), rgba(210, 168, 88, 0.95), rgba(255, 255, 255, 0.9));
+        animation: boot-slide 1.35s ease-in-out infinite;
+      }
+
+      @keyframes boot-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes boot-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: scale(1.06);
+          opacity: 1;
+        }
+      }
+
+      @keyframes boot-slide {
+        0% {
+          transform: translateX(-130%);
+        }
+        100% {
+          transform: translateX(250%);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .boot-loader,
+        .boot-loader::before,
+        .boot-loader::after,
+        .boot-loader__brand::before,
+        .boot-loader__brand::after,
+        .boot-loader__rail::after {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
   </head>
 
   <body>
+    <div id="boot-loader" class="boot-loader" aria-hidden="true">
+      <div class="boot-loader__shell">
+        <div class="boot-loader__brand">
+          <img class="boot-loader__logo" src="/assets/images/logo-og.png" alt="Shubhaam Concret Floors" />
+        </div>
+        <p class="boot-loader__title">Shubhaam <span>Concret</span></p>
+        <p class="boot-loader__copy">Preparing your flooring experience</p>
+        <div class="boot-loader__rail"></div>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

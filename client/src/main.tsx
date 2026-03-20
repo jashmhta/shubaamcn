@@ -9,6 +9,21 @@ import { getLoginUrl } from "./const";
 import "./index.css";
 
 const queryClient = new QueryClient();
+const MIN_BOOT_LOADER_MS = 900;
+
+const dismissBootLoader = () => {
+  if (typeof window === "undefined") return;
+
+  const bootLoader = document.getElementById("boot-loader");
+  if (!bootLoader || bootLoader.classList.contains("boot-loader--done")) return;
+
+  const finish = () => {
+    bootLoader.classList.add("boot-loader--done");
+    window.setTimeout(() => bootLoader.remove(), 650);
+  };
+
+  window.setTimeout(finish, MIN_BOOT_LOADER_MS);
+};
 
 const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
@@ -59,3 +74,11 @@ createRoot(document.getElementById("root")!).render(
     </QueryClientProvider>
   </trpc.Provider>
 );
+
+if (typeof window !== "undefined") {
+  if (document.readyState === "complete") {
+    dismissBootLoader();
+  } else {
+    window.addEventListener("load", dismissBootLoader, { once: true });
+  }
+}
